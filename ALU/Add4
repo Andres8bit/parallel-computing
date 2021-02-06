@@ -1,0 +1,35 @@
+CHIP Add4{
+ IN a[4], b[4],c;
+ OUT out[4], carry
+
+	PARTS:
+//Carry Propagation:
+    Xor(a=a[0],b=b[0],out=P0);
+    Xor(a=a[1],b=b[1],out=P1);
+    Xor(a=a[2],b=b[2],out=P2);
+    Xor(a=a[3],b=b[3],out=P3);     
+
+//Carry Generate:
+    And(a=a[0],b=b[0],out=G0);
+    And(a=a[1],b=b[1],out=G1);
+    And(a=a[2],b=b[2],out=G2);
+    And(a=a[3],b=b[3],out=G3);
+
+//output carry:
+    And(a=P0,b=c,out=D0);
+    Or(a=G0,b=D0,out=C1);//c1
+    And(a=P1,b=C1,out=D1);
+    Or(a=G1,b=D1,out=C2);//c2
+    And(a=P2,b=C2,out=D2);
+    Or(a=G2,b=D2,out=C3);//C3
+    And(a=P3,b=C3,out=D3);
+    Or(a=G3,a=D3,out=carry);//carry out
+//sumation:
+    Xor(a=P0,b=C,out=out[0]);
+    Xor(a=P1,b=C1,out=out[1]);
+    Xor(a=P2,b=C2,out=out[2]);
+    Xor(a=P3,b=C3,out=out[3]);
+
+	
+
+}
